@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
+import Card from "../../shared/components/UIElements/Card";
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
@@ -13,7 +14,7 @@ import "./PlaceForm.css";
 
 const DUMMY_PLACES = [
   {
-    id: "P1",
+    id: "p1",
     title: "Empire State Building",
     description: "One of the most famous sky scrapers in the world!",
     imageUrl:
@@ -26,8 +27,8 @@ const DUMMY_PLACES = [
     creator: "u1",
   },
   {
-    id: "P1",
-    title: "Empire State Building",
+    id: "p2",
+    title: "Emp. State Building",
     description: "One of the most famous sky scrapers in the world!",
     imageUrl:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/NYC_Empire_State_Building.jpg/640px-NYC_Empire_State_Building.jpg",
@@ -42,7 +43,9 @@ const DUMMY_PLACES = [
 
 const UpdatePlace = () => {
   const placeId = useParams().placeId;
-  const [formState, inputHandler] = useForm(
+  const [isloading, setIsLoading] = useState(true);
+
+  const [formState, inputHandler, setFormData] = useForm(
     {
       title: {
         value: "",
@@ -55,18 +58,52 @@ const UpdatePlace = () => {
     },
     false
   );
+
   const identifiedPlace = DUMMY_PLACES.find((p) => p.id === placeId);
+
+  useEffect(() => {
+    if (identifiedPlace) {
+      setFormData(
+        {
+          title: {
+            value: identifiedPlace.title,
+            isValid: true,
+          },
+          description: {
+            value: identifiedPlace.description,
+            isValid: true,
+          },
+        },
+        true
+      );
+    }
+
+    setIsLoading(false);
+  }, [setFormData, identifiedPlace]);
+
   const placeUpdateSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs);
   };
+
   if (!identifiedPlace) {
     return (
       <div className="center">
-        <h2>Could not find place.</h2>
+        <Card>
+          <h2>Could not find place!</h2>
+        </Card>
       </div>
     );
   }
+
+  if (isloading) {
+    return (
+      <div className="center">
+        <h2>Loading...</h2>
+      </div>
+    );
+  }
+
   return (
     <form className="place-form" onSubmit={placeUpdateSubmitHandler}>
       <Input
