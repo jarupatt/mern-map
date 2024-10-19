@@ -11,16 +11,6 @@ const PlaceList = (props) => {
   const auth = useContext(AuthContext);
   const userId = useParams().userId;
 
-  if (auth.isLoggedIn && auth.userId !== userId) {
-    return (
-      <div className="place-list center">
-        <Card>
-          <h2>This user does not have any places.</h2>
-        </Card>
-      </div>
-    );
-  }
-
   if (props.items.length === 0) {
     return (
       <div className="place-list center">
@@ -31,6 +21,16 @@ const PlaceList = (props) => {
       </div>
     );
   }
+
+  // if (auth.isLoggedIn && auth.userId !== userId) {
+  //   return (
+  //     <div className="place-list center">
+  //       <Card>
+  //         <h2>This user does not have any places.</h2>
+  //       </Card>
+  //     </div>
+  //   );
+  // }
 
   return (
     <ul className="place-list">
