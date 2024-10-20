@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import Card from "../../shared/components/UIElements/Card";
 import PlaceItem from "./PlaceItem";
 import Button from "../../shared/components/FormElements/Button";
-import { AuthContext } from "../../shared/context/auth-context";
+// import { AuthContext } from "../../shared/context/auth-context";
 import "./PlaceList.css";
-import { useParams } from "react-router";
+// import { useParams } from "react-router";
 
 const PlaceList = (props) => {
-  const auth = useContext(AuthContext);
-  const userId = useParams().userId;
+  // const auth = useContext(AuthContext);
+  // const userId = useParams().userId;
 
   if (props.items.length === 0) {
     return (
